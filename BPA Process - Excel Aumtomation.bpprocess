@@ -1,0 +1,225 @@
+﻿<process name="Excel Aumtomation" version="1.0" bpversion="7.2.1.7446" narrative="" byrefcollection="true" processrunningmessage="" disableversioning="false" preferredid="32b69129-93f1-493f-bf84-346d5cabe5c7">
+  <view>
+    <camerax>96</camerax>
+    <cameray>82</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <stage stageid="63159475-cd32-4744-8016-1116b36535d9" name="Start" type="Start">
+    <display x="15" y="-105" />
+    <onsuccess>8d781905-2633-43c0-af7a-420889700987</onsuccess>
+  </stage>
+  <stage stageid="9b09289a-5b37-44b3-b8ef-12b8f24ab17d" name="End" type="End">
+    <display x="450" y="90" />
+  </stage>
+  <stage stageid="64955bfc-9670-4f0e-9211-634cba52deb1" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="a593b036-3f77-42f7-a8b2-38299d83979f" name="handle" type="Data">
+    <display x="-210" y="0" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="108e4903-c362-4db5-9944-bb444d134480" name="Workbook Name" type="Data">
+    <display x="-405" y="60" w="120" h="60" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="77f29c16-918f-4633-aed6-fdd2872a6ef0" name="Workbook Name2" type="Data">
+    <display x="-405" y="135" w="150" h="60" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="7814be70-31f4-4fc1-8d6a-55886057c638" name="ReadData" type="Collection">
+    <display x="-420" y="210" w="120" h="30" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="8d781905-2633-43c0-af7a-420889700987" name="MS Excel VBO::Create Instance" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle" />
+    </outputs>
+    <onsuccess>fd6e292f-e401-44f6-89bc-e5c1449fed5e</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="fd6e292f-e401-44f6-89bc-e5c1449fed5e" name="MS Excel VBO::Open Workbook" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="120" y="-45" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="&quot;C:\Users\ashish.salunkhe\Desktop\roster\New Microsoft Excel Worksheet.xlsx&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Workbook Name" />
+    </outputs>
+    <onsuccess>6d65de74-49ca-455b-b2da-c7dcc391e09f</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="6d65de74-49ca-455b-b2da-c7dcc391e09f" name="MS Excel VBO::Get Worksheet As Collection" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="210" y="-45" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Workbook Name]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="&quot;Sheet1&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Data" friendlyname="Data" narrative="The collection containing the data from the specified worksheet - the column IDs will be gleaned from the first row on the sheet being retrieved." stage="DataCollection" />
+    </outputs>
+    <onsuccess>b3f73747-73c8-4da4-830c-2785bcfc772a</onsuccess>
+    <resource object="MS Excel VBO" action="Get Worksheet As Collection" />
+  </stage>
+  <stage stageid="78ef19ce-2686-443b-869a-bb7ea3df41e1" name="DataCollection" type="Collection">
+    <display x="-210" y="90" w="90" h="90" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="Number1" type="number" />
+      <field name="Number2" type="number" />
+      <field name="Calculation" type="text" />
+      <field name="Result" type="number" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="11d12177-bbf6-44b3-a3bd-24d0d92cb21a" name="Loop Start1" type="LoopStart">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="45" />
+    <onsuccess>88220b7b-e577-4609-919d-4a259a5c1f7d</onsuccess>
+    <groupid>d3d5972b-0f56-402e-8392-455d02183c29</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>DataCollection</loopdata>
+  </stage>
+  <stage stageid="fc9bfdd2-111e-4b0e-8f82-d7b68809c837" name="Loop End1" type="LoopEnd">
+    <loginhibit onsuccess="true" />
+    <display x="315" y="90" />
+    <onsuccess>9b09289a-5b37-44b3-b8ef-12b8f24ab17d</onsuccess>
+    <groupid>d3d5972b-0f56-402e-8392-455d02183c29</groupid>
+  </stage>
+  <stage stageid="b3f73747-73c8-4da4-830c-2785bcfc772a" name="Anchor1" type="Anchor">
+    <loginhibit onsuccess="true" />
+    <display x="210" y="0" w="10" h="10" />
+    <onsuccess>a87135e0-e507-4232-aa42-05bfd73a6b49</onsuccess>
+  </stage>
+  <stage stageid="a87135e0-e507-4232-aa42-05bfd73a6b49" name="Anchor2" type="Anchor">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="0" w="10" h="10" />
+    <onsuccess>11d12177-bbf6-44b3-a3bd-24d0d92cb21a</onsuccess>
+  </stage>
+  <stage stageid="88220b7b-e577-4609-919d-4a259a5c1f7d" name="Choice1" type="ChoiceStart">
+    <display x="105" y="45" />
+    <groupid>4edd8714-9178-4269-84e2-7e05e633c57b</groupid>
+    <choices>
+      <choice expression="[Calculation]= &quot;Add&quot;">
+        <name>Add</name>
+        <distance>39</distance>
+        <ontrue>09adccb6-53d2-4c87-84f4-9d1d367bcee1</ontrue>
+      </choice>
+      <choice expression="[Calculation]= &quot;Subscract&quot;">
+        <name>Subscract</name>
+        <distance>78</distance>
+        <ontrue>54c8f5a7-89a0-448b-bdf7-6aa5c2552976</ontrue>
+      </choice>
+      <choice expression="[Calculation]= &quot;Multiply&quot;">
+        <name>Multiply</name>
+        <distance>117</distance>
+        <ontrue>58eb2c7b-4c18-4a82-b82a-86a7e3287934</ontrue>
+      </choice>
+      <choice expression="[Calculation]= &quot;Divide&quot;">
+        <name>Divide</name>
+        <distance>156</distance>
+        <ontrue>a6620243-b959-4b09-859b-b8fe821f74bd</ontrue>
+      </choice>
+    </choices>
+  </stage>
+  <stage stageid="0329e994-425a-4317-98df-c512dd413753" name="Otherwise1" type="ChoiceEnd">
+    <display x="105" y="240" />
+    <onsuccess>b2bb3c2a-4ca6-4d7f-b974-745b8e85ee3f</onsuccess>
+    <groupid>4edd8714-9178-4269-84e2-7e05e633c57b</groupid>
+  </stage>
+  <stage stageid="eae51b0b-cf7e-4bbc-985d-04bde5af8a51" name="Number1" type="Data">
+    <display x="-420" y="-120" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="47f69c53-7111-4993-aec3-39730de31e3a" name="Number2" type="Data">
+    <display x="-420" y="-60" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="09adccb6-53d2-4c87-84f4-9d1d367bcee1" name="Add" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="210" y="75" />
+    <onsuccess>fc9bfdd2-111e-4b0e-8f82-d7b68809c837</onsuccess>
+    <calculation expression="[Number1] + [Number2]" stage="Result" />
+  </stage>
+  <stage stageid="54c8f5a7-89a0-448b-bdf7-6aa5c2552976" name="Substract" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="210" y="105" />
+    <onsuccess>fc9bfdd2-111e-4b0e-8f82-d7b68809c837</onsuccess>
+    <calculation expression="[Number1] - [Number2]" stage="Result" />
+  </stage>
+  <stage stageid="58eb2c7b-4c18-4a82-b82a-86a7e3287934" name="Multiply" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="210" y="150" />
+    <onsuccess>fc9bfdd2-111e-4b0e-8f82-d7b68809c837</onsuccess>
+    <calculation expression="[Number1] * [Number2]" stage="Result" />
+  </stage>
+  <stage stageid="a6620243-b959-4b09-859b-b8fe821f74bd" name="Divide" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="210" y="195" />
+    <onsuccess>fc9bfdd2-111e-4b0e-8f82-d7b68809c837</onsuccess>
+    <calculation expression="[Number1] / [Number2]" stage="Result" />
+  </stage>
+  <stage stageid="b2bb3c2a-4ca6-4d7f-b974-745b8e85ee3f" name="Error" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="270" y="240" />
+    <onsuccess>fc9bfdd2-111e-4b0e-8f82-d7b68809c837</onsuccess>
+    <calculation expression="" stage="" />
+  </stage>
+  <stage stageid="7048c1cb-466f-4c04-945f-61445a6d85a7" name="Block1" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-480" y="0" w="165" h="255" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+  </stage>
+  <stage stageid="19eab932-b829-49b9-8827-1bb6ed8c5fde" name="Block2" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-285" y="-30" w="180" h="210" />
+    <font family="Segoe UI" size="10" style="Regular" color="FFFF00" />
+  </stage>
+  <stage stageid="e23973b3-fbe7-450d-b72a-9435ba9cc7e1" name="Block4" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-480" y="-150" w="180" h="120" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+  </stage>
+  <stage stageid="f91f0361-8ddd-48ab-9d24-b02f355e02e5" name="Calculation" type="Data">
+    <display x="-210" y="150" w="90" h="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d23266e3-84d3-47ab-a30c-dacbcee307e3" name="Result" type="Data">
+    <display x="210" y="30" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+</process>
